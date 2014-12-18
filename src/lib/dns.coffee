@@ -130,17 +130,6 @@ module.exports = (dnschain) ->
                     else
                         @log.debug gLineInfo("#{resolver.name} resolved query"), {q:q, d:q.name, result:result}
 
-                        try
-                            # result.value = JSON.parse result.value
-                            # TODO: [BDNS] this! also, note that we're converting JSON multiple times
-                            #       this is ineffecient and ugly.
-                            #       organize all this code in a generic way to support all blockchains.
-                            result.value = @dnschain[resolver].toJSONobj result
-                        catch e
-                            @log.warn e.stack
-                            @log.warn gLineInfo("bad JSON!"), {q:q, result:result}
-                            return @sendErr res, NAME_RCODE.FORMERR
-
                         if !(handler = dnsTypeHandlers.namecoin[QTYPE_NAME[q.type]])
                             @log.warn gLineInfo("no such handler!"), {q:q, type: QTYPE_NAME[q.type]}
                             return @sendErr res, NAME_RCODE.NOTIMP

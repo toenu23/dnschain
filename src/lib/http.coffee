@@ -60,5 +60,5 @@ module.exports = (dnschain) ->
                 else
                     res.writeHead 200, 'Content-Type': 'application/json'
                     @log.debug gLineInfo('cb|resolve'), {path:path, result:result}
-                    res.write @dnschain.chains[resolver].toJSONstr result
+                    res.write JSON.stringify result.value
                     res.end()
